@@ -1,0 +1,64 @@
+﻿@page "/products/create"
+@using BlazorApp1.Data.Models
+@using BlazorApp1.Services.Interfaces
+@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+
+<h3>Thêm sản phẩm mới</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@product" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="form-group mb-3">
+                        <label for="name">Tên sản phẩm:</label>
+                        <InputText id="name" @bind-Value="product.Name" class="form-control" />
+                        <ValidationMessage For="@(() => product.Name)" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="price">Giá:</label>
+                        <InputNumber id="price" @bind-Value="product.Price" class="form-control" />
+                        <ValidationMessage For="@(() => product.Price)" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="description">Mô tả:</label>
+                        <InputTextArea id="description" @bind-Value="product.Description" class="form-control" rows="3" />
+                        <ValidationMessage For="@(() => product.Description)" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>
+                            <InputCheckbox @bind-Value="product.IsAvailable" />
+                            Còn hàng
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="oi oi-check"></i> Lưu
+                        </button>
+                        <a href="/products" class="btn btn-secondary">
+                            <i class="oi oi-x"></i> Hủy
+                        </a>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Product product = new Product();
+
+    private async Task HandleValidSubmit()
+    {
+        await ProductService.CreateProductAsync(product);
+        NavigationManager.NavigateTo("/products");
+    }
+}
