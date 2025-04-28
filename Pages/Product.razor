@@ -1,0 +1,90 @@
+﻿@page "/Product"
+
+<PageTitle>Product Manager</PageTitle>
+
+@using BlazorApp1.Data
+@inject ProductsService productsService
+<h1>Product Manager</h1>
+
+
+@if (products == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<button onclick="openModal();"
+			class="button is-success">
+		Open Modal
+	</button>
+	<div class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-card">
+			<header class="modal-card-head">
+				<p class="modal-card-title">Modal title</p>
+				<button class="delete" aria-label="close"></button>
+			</header>
+			<section class="modal-card-body">
+				<!-- Content ... -->
+			</section>
+			<footer class="modal-card-foot">
+				<div class="buttons">
+					<button class="button is-success">Save changes</button>
+					<button class="button">Cancel</button>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<table class="table is-bordered">
+		<thead>
+			<tr class="is-info">
+				<th>Id</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Brand</th>
+				<th>IsAvailable</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var products in products)
+			{
+				<tr>
+					<td>@products.Id</td>
+					<td>@products.Name</td>
+					<td>@products.Price.ToString("C")</td>
+					<td>@products.Category</td>
+					<td>@(products.IsAvailable ? "Yes" : "No")</td>
+					<td>
+						<button class="btn btn-primary" @onclick="() => EditProduct(products.Id)">Edit</button>
+						<button class="btn btn-danger" @onclick="() => DeleteProduct(products.Id)">Delete</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	// private WeatherForecast[]? forecasts;
+	private List<Productse> products;
+	protected override void OnInitialized()
+	{
+		products = productsService.GetAllProducts();
+	}
+
+	private void EditProduct(int id)
+	{
+	}
+
+	private void DeleteProduct(int id)
+	{
+		productsService.DeleteProduct(id);
+		products = productsService.GetAllProducts();
+	}
+
+	private void AddNewProduct()
+	{
+	}
+
+}

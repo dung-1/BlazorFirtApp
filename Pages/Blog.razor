@@ -1,0 +1,30 @@
+﻿@page "/blog"
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Rendering
+
+
+@code {
+	private List<string> images = new List<string>
+	{
+		"https://via.placeholder.com/600x300?text=Image+1",
+		"https://via.placeholder.com/600x300?text=Image+2",
+		"https://via.placeholder.com/600x300?text=Image+3"
+	};
+	private int currentIndex = 0;
+	private void Next()
+	{
+		currentIndex = (currentIndex + 1) % images.Count;
+	}
+	private void Previous()
+	{
+		currentIndex = (currentIndex - 1 + images.Count) % images.Count;
+	}
+	private void SelectImage(int index)
+	{
+		currentIndex = index;
+	}
+
+
+}
