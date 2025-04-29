@@ -1,30 +1,30 @@
 ﻿@using BlazorApp1.Common
 
 <div class="event-card @BackgroundClass" style="height: @Height">
-    <div class="event-card-overlay">
-        <div class="event-card-header">
-            <div class="event-tag @(TagType == TagType.Green ? "tag-green" : "tag-blue")">@TagText</div>
-        </div>
-        <div class="event-card-footer">
-            <div class="event-card-date">@Date</div>
-            <div class="event-card-title">@Title</div>
-            @if (!string.IsNullOrWhiteSpace(Subtitle))
-            {
-                <div class="event-card-subtitle">@Subtitle</div>
-            }
-            <div class="event-card-arrow">
-                <i class="fas fa-arrow-right"></i>
-            </div>
-        </div>
-    </div>
+	<div class="event-card-overlay">
+		<div class="event-card-header">
+			<div class="event-tag @(TagType == TagType.Green ? "tag-green" : "tag-blue")">@TagText</div>
+		</div>
+		<div class="event-card-footer">
+			<div class="event-card-date">@Date</div>
+			<div class="event-card-title">@Title</div>
+			@if (!string.IsNullOrWhiteSpace(Subtitle))
+			{
+				<div class="event-card-subtitle">@Subtitle</div>
+			}
+			<div class="event-card-arrow">
+				<i class="fas fa-arrow-right"></i>
+			</div>
+		</div>
+	</div>
 </div>
 
 @code {
-    [Parameter] public string Title { get; set; }
-    [Parameter] public string Subtitle { get; set; } = "";
-    [Parameter] public string Date { get; set; }
-    [Parameter] public TagType TagType { get; set; }
-    [Parameter] public string TagText { get; set; }
-    [Parameter] public string BackgroundClass { get; set; }
-    [Parameter] public string Height { get; set; } = "200px";
+	[Parameter] public string? Title { get; set; }
+	[Parameter] public string? Subtitle { get; set; } = "";
+	[Parameter] public string? Date { get; set; }
+	[Parameter] public TagType TagType { get; set; }
+	[Parameter] public string? TagText { get; set; }
+	[Parameter] public string? BackgroundClass { get; set; }
+	[Parameter] public string? Height { get; set; } = "200px";
 }

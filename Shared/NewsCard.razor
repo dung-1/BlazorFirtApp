@@ -1,0 +1,26 @@
+﻿
+<div class="column is-3">
+	<div class="card">
+		<div class="card-image">
+			<figure class="image is-4by3">
+				<img class="thumnails" src="@Image" alt="Placeholder image">
+			</figure>
+		</div>
+		<div class="card-content">
+			<time datetime="2016-1-1">@Date</time>
+			<br>
+			<div class="content">
+				@Title
+			</div>
+			<span class="tag is-warning">@TagText</span>
+		</div>
+	</div>
+</div>
+
+
+@code {
+	[Parameter] public string? Title { get; set; }
+	[Parameter] public string? Date { get; set; }
+	[Parameter] public string? TagText { get; set; }
+	[Parameter] public string? Image { get; set; }
+}
