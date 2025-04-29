@@ -12,6 +12,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 @* @if (products == null) *@
 @* { *@
 @*     <p><em>Đang tải...</em></p> *@
@@ -58,4 +59,52 @@
 @*         </tbody> *@
 @*     </table> *@
 @* } *@
+=======
+@if (products == null)
+{
+    <p><em>Đang tải...</em></p>
+}
+else if (!products.Any())
+{
+    <p>Không có sản phẩm nào. Hãy thêm sản phẩm mới.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Ngày tạo</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("N0") VNĐ</td>
+                    <td>@(product.IsAvailable ? "Còn hàng" : "Hết hàng")</td>
+                    <td>@product.CreatedDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a href="/products/details/@product.Id" class="btn btn-info btn-sm">
+                            <i class="oi oi-list"></i> Chi tiết
+                        </a>
+                        <a href="/products/edit/@product.Id" class="btn btn-warning btn-sm">
+                            <i class="oi oi-pencil"></i> Sửa
+                        </a>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteProduct(product.Id)">
+                            <i class="oi oi-trash"></i> Xóa
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+>>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04
 

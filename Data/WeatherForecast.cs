@@ -10,5 +10,8 @@ namespace BlazorApp1.Data
 
         public string? Summary { get; set; }
     }
+<<<<<<< HEAD
    
+=======
+>>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04
 }
