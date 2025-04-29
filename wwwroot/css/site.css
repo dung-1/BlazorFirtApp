@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿.carousel {
+.carousel {
     position: relative;
     width: auto;
     height: 300px;
@@ -411,7 +410,6 @@
 .bg-academy {
     background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
 }
-=======
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
@@ -476,4 +474,3 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
->>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04

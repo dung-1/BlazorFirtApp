@@ -21,12 +21,9 @@ builder.Services.AddServerSideBlazor();
 // Thêm dịch vụ Global
 //GlobalHelper.RegisterServices(builder.Services);
 
-<<<<<<< HEAD
 builder.Services.AddSingleton<WeatherForecastService>(); 
 builder.Services.AddSingleton<ProductsService>();
-=======
 builder.Services.AddSingleton<WeatherForecastService>();
->>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04
 
 var app = builder.Build();
 

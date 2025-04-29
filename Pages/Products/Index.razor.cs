@@ -1,10 +1,8 @@
-<<<<<<< HEAD
+
 ﻿using BlazorApp1.Services.Interfaces;
-=======
 ﻿using BlazorApp1.Data.Models;
 using BlazorApp1.Data.Repository.Interfaces;
 using BlazorApp1.Services.Interfaces;
->>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -26,11 +24,8 @@ namespace BlazorApp1.Pages.Products
         {
             try
             {
-<<<<<<< HEAD
                 products = (IEnumerable<Product>)await ProductService.GetAllProductsAsync();
-=======
-                products = await ProductService.GetAllProductsAsync();
->>>>>>> 7e2fb0bff8c1c90ba9839e522a766f0fd0b2bd04
+                products = (IEnumerable<Product>)await ProductService.GetAllProductsAsync();
             }
             catch (Exception ex)
             {
