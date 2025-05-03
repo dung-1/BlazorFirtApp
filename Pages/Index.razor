@@ -2,124 +2,195 @@
 <PageTitle>Blog</PageTitle>
 @using System.Collections.Generic
 @using BlazorApp1.Common
+@using BlazorApp1.Data.Models
+@using BlazorApp1.Services
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Rendering
-
+@inject NewsService newsService
 <section class="column">
-	<div class="main">
-		<Carousel />
-	</div>
-	<ul class="columns is-vcentered">
-		<li class="column is-narrow">
-			<h1 class="title is-5 ">
-				TIN NỔI BẬT
-			</h1>
-		</li>
-		<li class="column">
-			<hr class="m-0">
-		</li>
-	</ul>
-	<div class="buma-container buma-mt-4">
-		<div class="buma-row buma-gutter-24">
-			<div class="buma-col-12 buma-col-md-6 buma-mb-4">
-				<EventCard Title="FASTDO ACADEMY"
-						   Subtitle="Nơi tổng hợp thông tin của tất cả các chương trình đào tạo"
-						   Date="16/01/2024"
-						   TagType="TagType.Green"
-						   TagText="Hoạt động nội bộ"
-						   BackgroundClass="bg-academy"
-						   Height="580px" />
-			</div>
+    <div class="main">
+        <Carousel />
+    </div>
+    <ul class="columns is-vcentered">
+        <li class="column is-narrow">
+            <h1 class="title is-5 ">
+                TIN NỔI BẬT
+            </h1>
+        </li>
+        <li class="column">
+            <hr class="m-0">
+        </li>
+    </ul>
+    <div class="buma-container buma-mt-4">
+        <div class="buma-row buma-gutter-24">
+            @if (displayedNewList is null)
+            {
+                <div class="buma-col-12">
+                    <p>Đang tải...</p>
+                </div>
+            }
+            else
+            {
+                <div class="buma-col-12 buma-col-md-6 buma-mb-4">
+                    @if (newsList.Any())
+                    {
+                        var firstNews = newsList.FirstOrDefault();
+                        <EventCard Title="@firstNews?.Title"
+                        Subtitle="@firstNews?.Subtitle"
+                        Date="@firstNews?.Date.ToString("dd/MM/yyyy")"
+                        TagType="@firstNews?.TagType"
+                        TagText="@firstNews?.TagText"
+                        BackgroundClass="@firstNews?.BackgroundClass"
+                        Height="580px" />
+                    }
+                </div>
 
-			<div class="buma-col-12 buma-col-md-6">
-				<!-- Hàng 1 của cột phải -->
-				<div class="buma-row buma-gutter-24">
-					<div class="buma-col-12 buma-mb-4">
-						<EventCard Title="TỔNG HỢP BIÊN BẢN HỌP GIAO BAN"
-								   Date="22/04/2024"
-								   TagType="TagType.Green"
-								   TagText="Hoạt động nội bộ"
-								   BackgroundClass="bg-gradient-purple-red"
-								   Height="180px" />
-					</div>
-				</div>
+                <div class="buma-col-12 buma-col-md-6">
+                    <div class="buma-row buma-gutter-24">
+                        @foreach (var news in newsList.Skip(1).Take(2))
+                        {
+                            <div class="buma-col-12 buma-mb-4">
+                                <EventCard Title="@news.Title"
+                                Subtitle="@news.Subtitle"
+                                Date="@news.Date.ToString("dd/MM/yyyy")"
+                                TagType="@news.TagType"
+                                TagText="@news.TagText"
+                                BackgroundClass="@news.BackgroundClass"
+                                Height="180px" />
+                            </div>
+                        }
+                    </div>
 
-				<div class="buma-row buma-gutter-24">
-					<div class="buma-col-12 buma-mb-4">
-						<EventCard Title="NỘI DUNG SINH HOẠT HỆ GIÁ TRỊ THÁNG TRÁCH NHIỆM"
-								   Date="14/04/2025"
-								   TagType="TagType.Blue"
-								   TagText="Hệ giá trị"
-								   BackgroundClass="bg-gradient-pink-orange"
-								   Height="180px" />
-					</div>
-				</div>
-				<div class="buma-row buma-gutter-24">
-					<div class="buma-col-6 buma-mb-4">
-						<EventCard Title="SINH HOẠT HỆ GIÁ TRỊ THÁNG CẢI TIẾN"
-								   Date="10/03/2025"
-								   TagType="TagType.Blue"
-								   TagText="Hệ giá trị"
-								   BackgroundClass="bg-gradient-purple-blue"
-								   Height="180px" />
-					</div>
-					<div class="buma-col-6 buma-mb-4">
-						<EventCard Title="SINH HOẠT HỆ GIÁ TRỊ THÁNG CẢI TIẾN"
-								   Date="10/03/2025"
-								   TagType="TagType.Blue"
-								   TagText="Hệ giá trị"
-								   BackgroundClass="bg-gradient-purple-blue"
-								   Height="180px" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tabs is-right is-boxed">
-		<ul>
-			<li class="is-active"><a>Tất cả</a></li>
-			<li><a>Âm nhạc</a></li>
-			<li><a>Sản phẩm</a></li>
-			<li><a>Thể thao</a></li>
-			<li><a>Du lịch</a></li>
-		</ul>
-	</div>
-	<div class="container">
+                    <div class="buma-row buma-gutter-24">
+                        @foreach (var news in newsList.Skip(3).Take(2))
+                        {
+                            <div class="buma-col-6 buma-mb-4">
+                                <EventCard Title="@news.Title"
+                                Subtitle="@news.Subtitle"
+                                Date="@news.Date.ToString("dd/MM/yyyy")"
+                                TagType="@news.TagType"
+                                TagText="@news.TagText"
+                                BackgroundClass="@news.BackgroundClass"
+                                Height="180px" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
 
-		<div class="columns">
+        </div>
+    </div>
+    <div class="tabs is-right is-boxed">
+        <ul>
+            <li class="@((string.IsNullOrEmpty(selectedTag) ? "is-active" : ""))">
+                <a @onclick="() => FilterByTag(null)">Tất cả</a>
+            </li>
+            @if (newsListFilter != null)
+            {
+                @foreach (var tag in newsListFilter)
+                {
+                    <li class="@((selectedTag == tag ? "is-active" : ""))">
+                        <a @onclick="() => FilterByTag(tag)">@tag</a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 
-			<NewsCard Title="RUN FOR ORANGE HOPE"
-					  Date="11:09 PM - 1 Jan 2016"
-					  TagText="Warning"
-					  Image="https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/S/I/124210_1612011734.jpg" />
-			<NewsCard Title="RUN FOR ORANGE HOPE"
-					  Date="11:09 PM - 1 Jan 2016"
-					  TagText="Warning"
-					  Image="https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/S/I/124210_1612011734.jpg" />
-			<NewsCard Title="RUN FOR ORANGE HOPE"
-					  Date="11:09 PM - 1 Jan 2016"
-					  TagText="Warning"
-					  Image="https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/S/I/124210_1612011734.jpg" />
-			<NewsCard Title="RUN FOR ORANGE HOPE"
-					  Date="11:09 PM - 1 Jan 2016"
-					  TagText="Warning"
-					  Image="https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/S/I/124210_1612011734.jpg" />
-		</div>
-	</div>
-		<nav class="pagination is-rounded is-centered py-2 " role="navigation" aria-label="pagination">
-			<ul class="pagination-list">
-				<li><a href="#" class="pagination-link" aria-label="Goto page 1">1</a></li>
-				<li><span class="pagination-ellipsis">&hellip;</span></li>
-				<li><a href="#" class="pagination-link" aria-label="Goto page 45">45</a></li>
-				<li>
-					<a class="pagination-link is-current"
-					   aria-label="Page 46"
-					   aria-current="page">46</a>
-				</li>
-				<li><a href="#" class="pagination-link" aria-label="Goto page 47">47</a></li>
-				<li><span class="pagination-ellipsis">&hellip;</span></li>
-				<li><a href="#" class="pagination-link" aria-label="Goto page 86">86</a></li>
-			</ul>
-		</nav>
+    <div class="buma-container">
+        <div class="buma-row buma-gutter-24">
+            <CascadingValue Value="displayedNewList">
+                @if (displayedNewList != null)
+                {
+                    @foreach (var news in displayedNewList)
+                    {
+                        <div class="buma-col-12 buma-col-md-6 buma-col-lg-3 buma-mb-4">
+                            <NewsCard NewsList="@news" />
+                        </div>
+                    }
+                }
+            </CascadingValue>
+        </div>
+    </div>
+
+    <div class="is-justify-content-center">
+        <button class="button is-primary" @onclick="ToggleNewsDisplay">
+            @(showAll ? "Ẩn bớt" : "Xem thêm")
+        </button>
+    </div>
+
 </section>
+@code {
+    private List<News>? newsList;
+    private List<News>? displayedNewList;
+    private List<string>? newsListFilter;
+    private int itemsToShow = 4;
+    private bool showAll = false;
+    private string? selectedTag = null; 
+
+    protected override async Task OnInitializedAsync()
+    {
+        newsList = await newsService.GetAllNewsAsync();
+        LoadMore();
+        LoadMoreFilter();
+    }
+
+    private void LoadMore()
+    {
+        if (newsList == null) return;
+
+        if (showAll)
+        {
+            displayedNewList = string.IsNullOrEmpty(selectedTag)
+                ? newsList
+                : newsList.Where(news => news.TagText == selectedTag).ToList();
+        }
+        else
+        {
+            displayedNewList = string.IsNullOrEmpty(selectedTag)
+                ? newsList.Take(itemsToShow).ToList()
+                : newsList.Where(news => news.TagText == selectedTag).Take(itemsToShow).ToList();
+        }
+    }
+
+    private void LoadMoreFilter()
+    {
+        if (newsList == null) return;
+        newsListFilter = newsList.Select(s => s.TagText).Distinct().ToList();
+    }
+
+    private void FilterByTag(string? tag)
+    {
+        selectedTag = tag; 
+        showAll = false; 
+        itemsToShow = 4; 
+        LoadMore(); 
+    }
+
+    private void ToggleNewsDisplay()
+    {
+        if (displayedNewList == null) return;
+
+        if (showAll)
+        {
+            showAll = false;
+            itemsToShow = 4;
+        }
+        else
+        {
+            if (itemsToShow + 4 >= (string.IsNullOrEmpty(selectedTag)
+                ? newsList?.Count
+                : newsList?.Count(news => news.TagText == selectedTag)))
+            {
+                showAll = true;
+            }
+            else
+            {
+                itemsToShow += 4;
+            }
+        }
+
+        LoadMore(); 
+    }
+}

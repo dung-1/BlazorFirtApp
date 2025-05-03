@@ -229,8 +229,8 @@ a, .btn-link {
     padding: 8px 16px;
     border-radius: 50px;
     font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 12px;
+    margin-bottom: 7px;
 }
 
 .tag-green {
@@ -254,7 +254,7 @@ a, .btn-link {
 }
 
 .event-card-title {
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .card-subtitle, .event-card-subtitle {
@@ -272,7 +272,7 @@ a, .btn-link {
 }
 
 .card-date, .event-card-date {
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: 5px;
 }
 
@@ -351,7 +351,6 @@ a, .btn-link {
 .bg-gradient-purple-blue {
     background-image: linear-gradient(to right, #6a11cb, #2575fc);
 }
-
 .bg-academy {
     background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
 }
@@ -412,4 +411,27 @@ a, .btn-link {
         flex: 0 0 50%;
         max-width: 50%;
     }
+}
+/* Thêm các class này nếu chưa có trong BumaCSS */
+.buma-col-lg-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+@media (max-width: 992px) {
+    .buma-col-lg-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .buma-col-lg-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.h-100 {
+    height: 100% !important;
 }

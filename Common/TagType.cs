@@ -2,7 +2,10 @@
 {
     public enum TagType
     {
+        Primary,
+        Secondary,
         Green,
+        Red,
         Blue
     }
 }
