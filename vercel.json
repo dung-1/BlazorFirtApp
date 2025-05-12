@@ -1,0 +1,13 @@
+{
+    "builds": [
+        {
+            "src": "./",
+            "use": "@vercel/static-build",
+            "config": {
+                "installCommand": "curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 6.0 && export PATH=$PATH:$HOME/.dotnet",
+                "buildCommand": "dotnet publish -c Release -o publish",
+                "outputDirectory": "publish/wwwroot"
+            }
+        }
+    ]
+}
