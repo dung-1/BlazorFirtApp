@@ -67,7 +67,6 @@
 
     private void AutoPlayTick(object state)
     {
-        // Need to invoke StateHasChanged on the UI thread
         InvokeAsync(() =>
         {
             Next();
@@ -104,7 +103,6 @@
 
     public void Dispose()
     {
-        // Clean up timer when component is disposed
         StopAutoPlay();
         objRef?.Dispose();
     }

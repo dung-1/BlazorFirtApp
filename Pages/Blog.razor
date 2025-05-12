@@ -1,30 +1,101 @@
 ﻿@page "/blog"
 @using System.Collections.Generic
+@using BlazorApp1.Data.Models
+@using BlazorApp1.Services
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Rendering
+@inject NewsService newsService
+<section class="column">
+    <div class="main">
+        <button class="button is-primary" @onclick="ShowAddNewsModal">Thêm News</button>
 
+        @if (displayedNewList is null)
+        {
+            <p>Đang tải...</p>
+        }
+        else
+        {
+            <table class="table is-bordered">
+                <thead>
+                    <tr class="is-info">
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th>Date</th>
+                        <th>TagText</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var news in displayedNewList)
+                    {
+                        <tr>
+                            <td>@news.Title</td>
+                            <td>@news.Subtitle</td>
+                            <td>@news.Date.ToString("dd/MM/yyyy")</td>
+                            <td>@news.TagText</td>
+                            <td>
+                                <button class="button is-warning" @onclick="() => ShowEditNewsModal(news)">Sửa</button>
+                                <button class="button is-danger" @onclick="() => DeleteNews(news.Id)">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (isModalVisible)
+        {
+            <Modal/>
+        }
+    </div>
+</section>
 
 @code {
-	private List<string> images = new List<string>
-	{
-		"https://via.placeholder.com/600x300?text=Image+1",
-		"https://via.placeholder.com/600x300?text=Image+2",
-		"https://via.placeholder.com/600x300?text=Image+3"
-	};
-	private int currentIndex = 0;
-	private void Next()
-	{
-		currentIndex = (currentIndex + 1) % images.Count;
-	}
-	private void Previous()
-	{
-		currentIndex = (currentIndex - 1 + images.Count) % images.Count;
-	}
-	private void SelectImage(int index)
-	{
-		currentIndex = index;
-	}
+    private List<News>? newsList;
+    private List<News>? displayedNewList;
+    private News currentNews = new News();
+    private bool isModalVisible = false;
+    private string modalTitle = "";
 
+    protected override async Task OnInitializedAsync()
+    {
+        newsList = await newsService.GetAllNewsAsync();
+        displayedNewList = newsList;
+    }
+
+    private void ShowAddNewsModal()
+    {
+        currentNews = new News { Date = DateTime.Now };
+        modalTitle = "Thêm News";
+        isModalVisible = true;
+    }
+
+    private void ShowEditNewsModal(News news)
+    {
+        currentNews = new News
+            {
+                Id = news.Id,
+                Title = news.Title,
+                Subtitle = news.Subtitle,
+                Date = news.Date,
+                TagText = news.TagText,
+                Image = news.Image,
+                BackgroundClass = news.BackgroundClass,
+                Height = news.Height
+            };
+        modalTitle = "Sửa News";
+        isModalVisible = true;
+    }
+
+
+    private async Task DeleteNews(Guid id)
+    {
+        await newsService.DeleteNewsAsync(id);
+        newsList = newsList?.Where(n => n.Id != id).ToList();
+        displayedNewList = newsList;
+        StateHasChanged();
+    }
 
 }
+

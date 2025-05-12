@@ -1,0 +1,77 @@
+﻿@using BlazorApp1.Data.Models
+@using BlazorApp1.Services
+@inject NewsService newsService
+
+<div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">@modalTitle</p>
+            <button class="delete" aria-label="close" @onclick="CloseModal"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">Title</label>
+                <div class="control">
+                    <input class="input" type="text" @bind="currentNews.Title" />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Subtitle</label>
+                <div class="control">
+                    <input class="input" type="text" @bind="currentNews.Subtitle" />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Date</label>
+                <div class="control">
+                    <input class="input" type="date" @bind="currentNews.Date" />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">TagText</label>
+                <div class="control">
+                    <input class="input" type="text" @bind="currentNews.TagText" />
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success" @onclick="SaveNews">Lưu</button>
+            <button class="button" @onclick="CloseModal">Hủy</button>
+        </footer>
+    </div>
+</div>
+
+@code {
+    private News currentNews = new News();
+    private bool isModalVisible = false;
+    private string modalTitle = "";
+    private List<News>? newsList;
+    private List<News>? displayedNewList; 
+
+    private async Task SaveNews()
+    {
+        if (currentNews.Id == Guid.Empty)
+        {
+            currentNews.Id = Guid.NewGuid();
+            await newsService.AddNewsAsync(currentNews);
+            newsList?.Add(currentNews);
+        }
+        else
+        {
+            await newsService.UpdateNewsAsync(currentNews);
+            var index = newsList?.FindIndex(n => n.Id == currentNews.Id);
+            if (index >= 0)
+            {
+                newsList[index.Value] = currentNews;
+            }
+        }
+
+        displayedNewList = newsList;
+        CloseModal();
+    }
+    private void CloseModal()
+    {
+        isModalVisible = false;
+    }
+}

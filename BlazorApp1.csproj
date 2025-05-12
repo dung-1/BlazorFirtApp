@@ -9,11 +9,12 @@
   <ItemGroup>
     <PackageReference Include="QGIL.EntityFrameworkCore" Version="10.3.4" />
     <PackageReference Include="Supabase" Version="1.1.1" />
-    <PackageReference Include="Supabase.Postgrest" Version="4.0.3" />
+    <PackageReference Include="Supabase.Postgrest" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pages\ProductDetails\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,8 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Rendering
 @inject NewsService newsService
+<h1> <a href="/blog">BLOG</a></h1>
+
 <section class="column">
     <div class="main">
         <Carousel />
@@ -24,6 +26,17 @@
     </ul>
     <div class="buma-container buma-mt-4">
         <div class="buma-row buma-gutter-24">
+
+            <div class="buma-col-12 buma-col-md-6 buma-mb-4">
+                <EventCard Title="@displayedNewList1?.Title"
+                Subtitle="@displayedNewList1?.Subtitle"
+                Date="@displayedNewList1?.Date.ToString("dd/MM/yyyy")"
+                TagType="@displayedNewList1?.TagType"
+                TagText="@displayedNewList1?.TagText"
+                BackgroundClass="@displayedNewList1?.BackgroundClass"
+                Height="580px" />
+
+            </div>
             @if (displayedNewList is null)
             {
                 <div class="buma-col-12">
@@ -32,20 +45,6 @@
             }
             else
             {
-                <div class="buma-col-12 buma-col-md-6 buma-mb-4">
-                    @if (newsList.Any())
-                    {
-                        var firstNews = newsList.FirstOrDefault();
-                        <EventCard Title="@firstNews?.Title"
-                        Subtitle="@firstNews?.Subtitle"
-                        Date="@firstNews?.Date.ToString("dd/MM/yyyy")"
-                        TagType="@firstNews?.TagType"
-                        TagText="@firstNews?.TagText"
-                        BackgroundClass="@firstNews?.BackgroundClass"
-                        Height="580px" />
-                    }
-                </div>
-
                 <div class="buma-col-12 buma-col-md-6">
                     <div class="buma-row buma-gutter-24">
                         @foreach (var news in newsList.Skip(1).Take(2))
@@ -80,7 +79,9 @@
             }
 
         </div>
+
     </div>
+
     <div class="tabs is-right is-boxed">
         <ul>
             <li class="@((string.IsNullOrEmpty(selectedTag) ? "is-active" : ""))">
@@ -124,11 +125,19 @@
 @code {
     private List<News>? newsList;
     private List<News>? displayedNewList;
+    private News? displayedNewList1;
+    private List<News>? displayedNewList2;
+    private List<News>? displayedNewList3;
     private List<string>? newsListFilter;
     private int itemsToShow = 4;
     private bool showAll = false;
-    private string? selectedTag = null; 
+    private string? selectedTag = null;
+    private bool shouldUpdateUI = true;
 
+    protected override bool ShouldRender()
+    {
+        return shouldUpdateUI; 
+    }
     protected override async Task OnInitializedAsync()
     {
         newsList = await newsService.GetAllNewsAsync();
@@ -151,6 +160,9 @@
             displayedNewList = string.IsNullOrEmpty(selectedTag)
                 ? newsList.Take(itemsToShow).ToList()
                 : newsList.Where(news => news.TagText == selectedTag).Take(itemsToShow).ToList();
+            displayedNewList1 = newsList.FirstOrDefault();
+            displayedNewList2 = newsList.Skip(1).Take(2).ToList();
+            displayedNewList3 = newsList.Skip(3).Take(2).ToList();
         }
     }
 
@@ -162,10 +174,12 @@
 
     private void FilterByTag(string? tag)
     {
-        selectedTag = tag; 
-        showAll = false; 
-        itemsToShow = 4; 
-        LoadMore(); 
+        selectedTag = tag;
+        showAll = false;
+        itemsToShow = 4;
+        LoadMore();
+        shouldUpdateUI = true;
+        // StateHasChanged();
     }
 
     private void ToggleNewsDisplay()
@@ -191,6 +205,6 @@
             }
         }
 
-        LoadMore(); 
+        LoadMore();
     }
 }
