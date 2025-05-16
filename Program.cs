@@ -25,6 +25,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<ProductsService>();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<NewsService>();
+builder.Services.AddSingleton<OkrServices>();
+
 
 builder.Services.AddSingleton(provider =>
 {

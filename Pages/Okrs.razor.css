@@ -1,0 +1,71 @@
+﻿
+.menu-collapsed {
+    width: 60px;
+    transition: width 0.3s ease;
+}
+
+.menu-expanded {
+    width: 16.66667%;
+    transition: width 0.1s ease;
+}
+
+.menu-collapsed .menu-text {
+    display: none;
+}
+
+.menu-collapsed:hover {
+    width: 208px;
+}
+
+    .menu-collapsed:hover .menu-text {
+        display: inline;
+    }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+}
+
+.menu-icon {
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.pinned {
+    color: #3273dc;
+}
+
+.pin-container {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.menu-collapsed:hover .pin-container,
+.menu-expanded:hover .pin-container {
+    opacity: 1;
+}
+
+.pinned {
+    color: #3273dc;
+}
+
+.menu-expanded .pin-container {
+    opacity: 1;
+}
+.slide-panel {
+    position: fixed;
+    top: 10%;
+    right: -100%;
+    width: 600px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    padding: 1.5rem;
+}
+
+    .slide-panel.active {
+        right: 0;
+    }

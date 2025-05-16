@@ -1,59 +1,153 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">MyApp</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿<section id="header" class=" shadow-1">
+	<ul class="columns is-mobile is-vcentered is-variable is-1 m-0 ">
+		<li class="column is-narrow header_product">
+			<div id="dropdown_60115dbb" class="dropdown">
+				<div class="dropdown-trigger">
+					<button class="button is-small is-primary is-inverted">
+						<span class="icon">
+							<span class="material-icons is-size-5">
+								<i class="fa-solid fa-house"></i>
+							</span>
+						</span>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow"><a href="#"><img id="image_255B67A2DD9D664" src="/images/logo_fastdo.svg" alt="Hình ảnh" class="image pr-2" style="height:20px" loading="lazy" data-loaded="true"></a></li>
+		<li class="column is-narrow is-hidden-mobile">
+			<a class="icon-text" href="#">
+				<span class="icon image is-flex mr-1" style="background:#FCA41B30;padding:1px;border-radius:6px;align-items:center; justify-content:center">
+					<span class="material-icons is-size-5" style="color:#FCA41B ">
+						<i class="fa-solid fa-location-crosshairs"></i>
+					</span>
+				</span>
+				<span class="has-text-weight-semibold">OKRs</span>
+			</a>
+		</li>
+		<li class="column is-hidden-mobile">
+			<div style="max-width:400px">
+				<div class="control search_bar  has-icons-left has-icons-right has_suggest" title="Nhấn &quot;/&quot; để tìm kiếm">
+					<input id="search_255BC" class="input is-rounded is-small" type="text" placeholder="Tên ứng dụng" autocomplete="off">
+					<span class="icon is-left">
+						<i class="fas fa-search"></i>
+					</span>
+					<a class="icon is-right has-text-danger"><kbd>/</kbd></a>
+				</div>
+			</div>
+		</li>
+		<li class="column is-hidden-tablet"></li>
+		<li class="column is-hidden-mobile is-narrow">
+			<div id="dropdown_70975638" class="dropdown ">
+				<div class="dropdown-trigger">
+					<div class="avatar_list">
+						<div class="user_item  "><figure class="image is-24x24"><img id="image_255B8AB9E4D9BAA" src="https://api.dicebear.com/9.x/micah/svg?seed=8" alt="avatar" class="is-rounded" loading="lazy" data-loaded="true"></figure></div>
+						<div class="online_dot "></div>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li class="column is-hidden-mobile is-narrow">
+			<div id="dropdown_e6e40ade" class="dropdown">
+				<div class="dropdown-trigger">
+					<button class="button is-small is-primary is-inverted">
+						<span>QUÝ III - 2024</span>
+						<span class="icon">
+							<span class="material-icons-outlined">
+								<i class="fa-solid fa-caret-down"></i>
+							</span>
+						</span>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow">
+			<div id="dropdown_6419bfa7" class="dropdown">
+				<div class="dropdown-trigger">
+					<button class="button is-small is-white ">
+						<span class="icon image is-24x24 is-rounded"><img id="image_255B1990A29D7ED" src="https://storage.googleapis.com/fastdo-storage.appspot.com/638690818948175374_artboard-23-copy@2x.png" alt="Logo" loading="lazy" data-loaded="true"></span>
+						<span class="is-hidden-mobile text_1_line" style="max-width:200px">Công ty TNHH Quản trị số Fastdo</span>
+						<span class="icon">
+							<span class="material-icons-outlined">
+								<i class="fa-solid fa-caret-down"></i>
+							</span>
+						</span>
+					</button>
+				</div>
+			</div>
+		</li>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        @* <div class="nav-item px-3"> *@
-        @*     <NavLink class="nav-link" href="" Match="NavLinkMatch.All"> *@
-        @*         <span class="oi oi-home" aria-hidden="true"></span> Home *@
-        @*     </NavLink> *@
-        @* </div> *@
-        @* <div class="nav-item px-3"> *@
-        @*     <NavLink class="nav-link" href="counter"> *@
-        @*         <span class="oi oi-plus" aria-hidden="true"></span> Counter *@
-        @*     </NavLink> *@
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="product">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Product
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="product">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Product
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+		<li class="column is-narrow">
+			|
+		</li>
+		<li class="column is-narrow">
+			<div id="dropdown_42f030a4" class="dropdown is_fixed ">
+				<div class="dropdown-trigger">
+					<a class="button is-small is-primary is-light">
+						<span class="icon">
+							<span class="material-icons-outlined">
+								<i class="fa-solid fa-business-time"></i>
+							</span>
+						</span>
+						<span>
+							Việc trong ngày
+						</span>
+					</a>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow">
+			<div id="dropdown_5b9f2ca1" class="dropdown is_fixed ">
+				<div class="dropdown-trigger">
+					<a class="button is-small is-white">
+						<span class="icon">
+							<span class="material-icons-outlined is-size-6">
+								<i class="fa-regular fa-clipboard"></i>
+							</span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow" style="z-index:9">
+			<div id="dropdown_e8a5013b" class="dropdown  is-noti is-right  ">
+				<div class="dropdown-trigger">
+					<a class="button is-small is-white">
+						<span class="icon">
+							<i class="fa-regular fa-message"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow" style="z-index:9">
+			<div id="dropdown_b71019c0" class="dropdown  is-noti h-full  ">
+				<div class="dropdown-trigger">
+					<a class="button is-small is-white" style="position:relative">
+						<span class="icon">
+							<i class="material-icons-outlined is-size-6">
+								<i class="fa-solid fa-bell"></i>
+							</i>
+						</span>
+						<span style="background: #f14668; border-radius: 5px;line-height: 14px;font-weight: 500;font-size: 8px;color: #fff;padding: 0px 5px; position: absolute;top: -1px;left: 15px;">
+							17
+						</span>
+					</a>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow">
+			<div id="dropdown_aedf9aed" class="dropdown    ">
+				<div class="dropdown-trigger">
+					<button class="button is-small is-primary is-inverted">
+						<span class="icon">
+							<span class="material-icons-outlined">
+								<i class="fa-solid fa-circle-info"></i>
+							</span>
+						</span>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li class="column is-narrow"><div id="dropdown_57b7e703" class="dropdown "><div class="dropdown-trigger"><button class="button is-small is-text"><img id="image_255B0D8BD4F636D" src="https://storage.googleapis.com/fastdo-storage.appspot.com/avatar/638814352153752677_z6549348119864_ed7446abe24e37c6b09ca1839f11c113.jpg" alt="Hình ảnh" class="image is-rounded is-24x24" style="object-fit:cover" loading="lazy" data-loaded="true"></button></div></div></li>
+	</ul>
+</section>
