@@ -1,0 +1,199 @@
+﻿@using BlazorApp1.Data.Models
+
+<div class="@($"slide-panel {(IsVisible ? "active" : "")}")">
+
+	<div class="level m-0">
+		<div class="level-left">
+			<div class="level-item">
+				<label class="label is-size-6">@(IsEditMode ? "CẬP NHẬT OKRs" : "TẠO OKRs MỚI")</label>
+			</div>
+		</div>
+
+		<div class="level-right">
+			<div class="level-item">
+				<div class="field is-grouped button has-text-dark" @onclick="CloseForm">
+					<div class="control ">
+						<i class="fa-solid fa-xmark"></i>
+					</div>
+					<div class="control ">
+						<a class="has-text-dark">Hủy tạo </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="columns m-0">
+
+		<div class=" column field m-0">
+			<label class="label is-size-7">Mục tiêu <span class="has-text-danger">*</span> </label>
+			<div class="control">
+				<input class="input" type="text" @bind="currentOkr.Objective" placeholder="Nhập mục tiêu">
+			</div>
+		</div>
+
+		<div class="column field m-0">
+			<label class="label is-size-7">Thành viên liên kết</label>
+			<div class="control">
+				<input class="input" type="text" @bind="currentOkr.Assignee" placeholder="Nhập tên thành viên">
+			</div>
+		</div>
+
+	</div>
+	<div class="columns m-0">
+		<div class="column field m-0">
+			<label class="label is-size-7">Tiến độ (%)</label>
+			<div class="control">
+				<input class="input" type="number" min="0" max="100" @bind="currentOkr.ProgressPercent" placeholder="Nhập phần trăm tiến độ">
+			</div>
+		</div>
+
+		<div class="column field m-0">
+			<label class="label is-size-7">Trạng thái tiến độ</label>
+			<div class="control">
+				<div class="select is-fullwidth">
+					<select @bind="currentOkr.ProgressStatus">
+						<option value="">-- Chọn trạng thái --</option>
+						<option value="Đúng tiến độ">Đúng tiến độ</option>
+						<option value="Chậm tiến độ">Chậm tiến độ</option>
+						<option value="Vượt tiến độ">Vượt tiến độ</option>
+						<option value="Nguy hiểm">Nguy hiểm</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="columns m-0">
+		<div class="column field m-0">
+			<label class="label is-size-7">Thay đổi</label>
+			<div class="control">
+				<input class="input" type="text" @bind="currentOkr.Change" placeholder="Nhập thay đổi">
+			</div>
+		</div>
+
+		<div class="column field m-0">
+			<label class="label is-size-7">Độ tự tin (%)</label>
+			<div class="control">
+				<input class="input" type="number" min="0" max="100" @bind="currentOkr.Confidence" placeholder="Nhập phần trăm độ tự tin">
+			</div>
+		</div>
+	</div>
+	<div class="columns m-0">
+		<div class="column field m-0">
+			<label class="label is-size-7">Check-in</label>
+			<div class="control">
+				<input class="input" type="text" @bind="currentOkr.Checkin" placeholder="Nhập thông tin check-in">
+			</div>
+		</div>
+
+		<div class="column field m-0">
+			<label class="label is-size-7">Trạng thái</label>
+			<div class="control">
+				<div class="select is-fullwidth">
+					<select @bind="currentOkr.Status">
+						<option value="">-- Chọn trạng thái --</option>
+						<option value="Đang thực hiện">Đang thực hiện</option>
+						<option value="Hoàn thành">Hoàn thành</option>
+						<option value="Tạm dừng">Tạm dừng</option>
+						<option value="Hủy bỏ">Hủy bỏ</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="buttons is-flex is-justify-content-end">
+		<div class="field is-grouped is-info button has-text-light has-text-weight-semibold" @onclick="SaveItem">
+			<div class="control ">
+				<i class="fa-solid fa-check"></i>
+			</div>
+			<div class="control ">
+				<a class="has-text-light has-text-weight-semibold">Cập nhật </a>
+			</div>
+		</div>
+		<div class="field is-grouped is-danger button has-text-light has-text-weight-semibold" @onclick="CloseForm">
+			<div class="control ">
+				<i class="fa-solid fa-trash"></i>
+			</div>
+			<div class="control ">
+				<a class="has-text-light has-text-weight-semibold">Xóa </a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	private Taget currentOkr = new Taget();
+
+	[Parameter]
+	public bool IsVisible { get; set; }
+
+	[Parameter]
+	public bool IsEditMode { get; set; } = false;
+
+	[Parameter]
+	public Taget OkrToEdit { get; set; }
+
+	[Parameter]
+	public EventCallback<bool> IsVisibleChanged { get; set; }
+
+	[Parameter]
+	public EventCallback<Taget> OnSave { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		// Nếu đang ở chế độ sửa và có dữ liệu OKR được truyền vào
+		if (IsEditMode && OkrToEdit != null)
+		{
+			// Tạo bản sao của OKR để tránh thay đổi trực tiếp đối tượng gốc
+			currentOkr = new Taget
+				{
+					Id = OkrToEdit.Id,
+					Objective = OkrToEdit.Objective,
+					Assignee = OkrToEdit.Assignee,
+					ProgressPercent = OkrToEdit.ProgressPercent,
+					ProgressStatus = OkrToEdit.ProgressStatus,
+					Change = OkrToEdit.Change,
+					Confidence = OkrToEdit.Confidence,
+					Checkin = OkrToEdit.Checkin,
+					Status = OkrToEdit.Status
+				};
+		}
+		else
+		{
+			// Nếu đang ở chế độ thêm mới, tạo đối tượng OKR mới
+			currentOkr = new Taget();
+		}
+	}
+
+	private async Task CloseForm()
+	{
+		// Reset form
+		if (!IsEditMode)
+		{
+			currentOkr = new Taget();
+		}
+
+		await IsVisibleChanged.InvokeAsync(false);
+	}
+
+	private async Task SaveItem()
+	{
+		// Kiểm tra dữ liệu hợp lệ
+		if (string.IsNullOrWhiteSpace(currentOkr.Objective))
+		{
+			// Có thể thêm thông báo lỗi ở đây
+			return;
+		}
+
+		// Gọi callback để lưu dữ liệu
+		await OnSave.InvokeAsync(currentOkr);
+
+		// Reset form nếu là thêm mới
+		if (!IsEditMode)
+		{
+			currentOkr = new Taget();
+		}
+	}
+}

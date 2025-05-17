@@ -53,19 +53,3 @@
 .menu-expanded .pin-container {
     opacity: 1;
 }
-.slide-panel {
-    position: fixed;
-    top: 10%;
-    right: -100%;
-    width: 600px;
-    height: 100%;
-    background-color: white;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
-    transition: right 0.3s ease-in-out;
-    z-index: 1000;
-    padding: 1.5rem;
-}
-
-    .slide-panel.active {
-        right: 0;
-    }

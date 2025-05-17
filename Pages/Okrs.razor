@@ -107,10 +107,16 @@
 					</div>
 				</div>
 				<div class="level-item">
-					@* <p class="is-light" style="cursor: pointer; color: #1a73e8;">Lịch sử chỉnh sửa</p> *@
-					<a class=" button  has-background-primary has-text-light " @onclick="ToggleForm">
-						Thêm
-					</a>
+					<div class="field is-grouped is-primary button has-text-dark" @onclick="ToggleForm">
+						<div class="control ">
+							<i class="fa-solid fa-plus"></i>
+						</div>
+						<div class="control ">
+							<a class="has-text-dark">Thêm </a>
+						</div>
+					</div>
+
+
 				</div>
 			</div>
 		</div>
@@ -124,23 +130,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="@($"slide-panel {(isFormVisible ? "active" : "")}")">
-			<div class="field">
-				<label class="label">TẠO OKRs MỚI</label>
-				<div class="control">
-					<input class="input" type="text" @bind="itemName" placeholder="Nhập tên">
-				</div>
-			</div>
-
-			<div class="buttons">
-				<button class="button is-success" @onclick="SaveItem">Lưu</button>
-				<button class="button is-light" @onclick="ToggleForm">Đóng</button>
-			</div>
-		</div>
+		<_UpdateOks IsVisible="isFormVisible"
+					IsEditMode="isEditMode"
+					OkrToEdit="selectedOkr"
+					IsVisibleChanged="HandleFormVisibilityChanged"
+					OnSave="HandleSaveOkr" />
 		<div class="box m-2">
 			<table class="table" style="font-family:sans-serif; font-size:12px;">
 				<thead>
 					<tr>
+						<th>STT</th>
 						<th>Mục tiêu</th>
 						<th>Thành viên liên kết</th>
 						<th>Thực đạt</th>
@@ -157,6 +156,7 @@
 						@foreach (var okr in CurrentPageItems)
 						{
 							<tr>
+								<td>@(CurrentPageItems.IndexOf(okr) + 1 + (currentPage - 1) * pageSize)</td>
 								<td>@okr.Objective</td>
 								<td>@okr.Assignee</td>
 								<td>@okr.ProgressPercent%</td>
@@ -180,11 +180,11 @@
 			<nav class="pagination is-centered" role="navigation" aria-label="pagination">
 				<a @onclick="PreviousPage" class="pagination-previous @(currentPage == 1 ? "is-disabled" : "")"
 				   style="@(currentPage == 1 ? "pointer-events: none;" : "cursor: pointer;")">
-					Previous
+					Trước
 				</a>
 				<a @onclick="NextPage" class="pagination-next @(currentPage == totalPages ? "is-disabled" : "")"
 				   style="@(currentPage == totalPages ? "pointer-events: none;" : "cursor: pointer;")">
-					Next page
+					Sau
 				</a>
 				<ul class="pagination-list">
 					@if (totalPages <= 7)
@@ -251,7 +251,7 @@
 
 	</div>
 </div>
-	
+
 @code {
 	private bool isMenuCollapsed = true;
 	private bool isPinned = false;
@@ -262,7 +262,8 @@
 	private int pageSize = 7;
 	private bool isFormVisible = false;
 	private string? itemName;
-
+	private bool isEditMode = false;
+	private Taget selectedOkr;
 	// New variables for search and filter
 	private string searchTerm = "";
 	private string _selectedProgressFilter = "Tiến độ";
@@ -416,20 +417,75 @@
 		selectedProgressFilter = e.Value.ToString();
 		ApplyFilters();
 	}
+	private void OpenAddForm()
+	{
+		isEditMode = false;
+		selectedOkr = null;
+		isFormVisible = true;
+	}
 
+	// Mở form sửa
+	private void OpenEditForm(Taget okr)
+	{
+		isEditMode = true;
+		selectedOkr = okr;
+		isFormVisible = true;
+	}
+
+	// Xử lý đóng form
+	private void HandleFormVisibilityChanged(bool value)
+	{
+		isFormVisible = value;
+	}
+
+	// Xử lý lưu OKR
+	private async Task HandleSaveOkr(Taget okr)
+	{
+		if (isEditMode)
+		{
+			// Cập nhật OKR hiện có
+			await okrServices.UpdateOkrAsync(okr);
+
+			// Cập nhật danh sách hiển thị
+			var index = ListOkrs.FindIndex(o => o.Id == okr.Id);
+			if (index >= 0)
+			{
+				ListOkrs[index] = okr;
+			}
+		}
+		else
+		{
+			// Thêm OKR mới
+			var newOkr = await okrServices.AddOkrAsync(okr);
+			ListOkrs.Add(newOkr);
+		}
+
+		// Cập nhật danh sách hiển thị
+		ApplyFilters();
+
+		// Đóng form
+		isFormVisible = false;
+	}
 	private void ToggleForm()
 	{
 		isFormVisible = !isFormVisible;
 	}
 
-	private void SaveItem()
+	private async Task HandleSaveItem(string name)
 	{
 		// Xử lý lưu dữ liệu ở đây
-		Console.WriteLine($"Đã lưu: {itemName}");
+		Console.WriteLine($"Đã lưu: {name}");
+
+		// Tạo OKR mới và thêm vào danh sách
+		// Ví dụ:
+		// var newOkr = new Taget { Objective = name, ... };
+		// await okrServices.AddOkrAsync(newOkr);
+		// ListOkrs.Add(newOkr);
+
+		// Cập nhật danh sách hiển thị
+		// ApplyFilters();
 
 		// Tắt form sau khi lưu
 		isFormVisible = false;
-		itemName = string.Empty;
 	}
-
 }
