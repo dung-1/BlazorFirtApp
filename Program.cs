@@ -10,7 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor()
+    .AddHubOptions(options =>
+    {
+        options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+        options.EnableDetailedErrors = true;
+    });
 
 
 // Add DbContext
@@ -30,13 +35,20 @@ builder.Services.AddSingleton<OkrServices>();
 
 builder.Services.AddSingleton(provider =>
 {
-    var url = "https://upxiewszyidukkcpiyjb.supabase.co";
-    var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVweGlld3N6eWlkdWtrY3BpeWpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MTE4NzcsImV4cCI6MjA2MTQ4Nzg3N30.Lvgdur2KxwYfWNuYCOwdNdAHbY6MTBfw_j-qi_x53ng";
+    var supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL");
+    var supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY");
 
-    var supabase = new Supabase.Client(url, key);
+    if (string.IsNullOrEmpty(supabaseUrl) || string.IsNullOrEmpty(supabaseKey))
+    {
+        throw new Exception("Thiếu biến môi trường SUPABASE_URL hoặc SUPABASE_KEY");
+    }
+
+    var supabase = new Supabase.Client(supabaseUrl, supabaseKey);
     supabase.InitializeAsync().Wait();
     return supabase;
 });
+builder.Services.AddResponseCaching();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,7 +64,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseResponseCaching();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 // Apply migrations at startup
